@@ -1,24 +1,26 @@
 <template>
   <div id="app">
-     <nav id="navbar" ref="navbar" class="navbar is-fixed-top has-shadow is-warning" role="navigation" aria-label="main navigation">
+     <vue-progress-bar></vue-progress-bar>
+     <nav id="navbar" ref="navbar" class="navbar is-fixed-top has-shadow is-danger" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
-            <button class="button is-warning"><i class="fas fa-poo"></i></button> misuh.co
+            <button class="button is-danger"><i class="fab fa-freebsd"></i></button> misuh.platform
           </a>
-          <button class="button navbar-burger is-warning is-no-outline" data-target="navMenu" @click="spanNavigation()">
+          <button class="button navbar-burger is-danger is-no-outline" data-target="navMenu" @click="spanNavigation()" :class="navbarSpan?'is-active':''">
             <span></span>
             <span></span>
             <span></span>
           </button>
         </div>
-        <div class="navbar-menu is-warning" :class="navbarSpan?'is-active':''" id="navMenu">
-          <div class="navbar-end">
-            <router-link class="navbar-item" tag="a" :to="'/daftar'">daftar</router-link>
+        <div class="navbar-menu is-danger" :class="navbarSpan?'is-active':''" id="navMenu">
+          <div class="navbar-end" @click="spanNavigation()">
+            <router-link class="navbar-item" tag="a" :to="'/privacy-policy'">kebijakan privasi</router-link>
+            <router-link class="navbar-item" tag="a" :to="'/daftar'">{{isRegistered()?'profile':'daftar'}}</router-link>
           </div>
         </div>
     </nav>
     <router-view/>
-    <div class="navbar is-fixed-bottom is-light" style="align-item:center">
+    <div class="navbar is-fixed-bottom is-light">
       <div class="is-footer-content">&copy;misuh 2018</div>
     </div>
   </div>
@@ -36,6 +38,12 @@ export default {
     spanNavigation(){
       this.navbarSpan = !this.navbarSpan;
     },
+    isRegistered(){
+      return localStorage.getItem('profile');
+    }
+  },
+  beforeCreate(){
+    this.$Progress.start();
   }
 }
 </script>
@@ -48,9 +56,10 @@ export default {
 }
 .is-footer-content{
   font-size: 10pt;
-  display: flex;
+  display: -webkit-flex;
   align-items:center;
   width: 100%;
+  height: 50px;
   justify-content: center;
 }
 </style>

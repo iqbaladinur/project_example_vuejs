@@ -13,10 +13,12 @@
     "array-union": "^1.0.2",
     "buefy": "^0.6.5",
     "firebase": "^4.9.0",
+    "moment": "^2.22.2",
     "vue": "^2.5.2",
     "vue-clipboard": "0.0.1",
     "vue-clipboards": "^1.2.4",
     "vue-google-signin-button": "^1.0.2",
+    "vue-progressbar": "^0.7.5",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

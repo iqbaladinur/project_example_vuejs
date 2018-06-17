@@ -102,7 +102,11 @@ export default {
       vueInstance.url = "https://misuh.azurewebsites.net/user/"+ data.Eea;
       vueInstance.btnGoogle = "Pake Akun Lain"
     }
-  }
+    this.$Progress.finish();
+  },
+  beforeCreate(){
+    this.$Progress.start();
+  },
 }
 </script>
 <style scoped>

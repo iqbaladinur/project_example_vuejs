@@ -13,7 +13,7 @@
               </div>
               <textarea class="textarea" placeholder=" Misuho neng kene!!" v-model="pisuhanmu"></textarea>
               <br>
-              <button class="button is-info is-small" @click="addPisuhanToFirebase">Caci Maki Saja Diriku</button>
+              <button class="button is-dark is-small" @click="addPisuhanToFirebase">Caci maki saja diriku</button>
               <!-- content here -->
               <div style="margin-top:30px">
                 <div class="has-text-centered" :class="!loading?'is-hidden':''">
@@ -22,13 +22,13 @@
                 <div v-for="(key, index) in Messages" :key="index" class="messages">
                   <article class="media">
                     <div class="media-left">
-                        <button class="button is-roundedfull is-warning"> <i class="fas fa-poo"></i></button>
+                        <button class="button is-roundedfull is-uppercase" :class="randCLassColor()"> <b>{{key.message.slice(0,1)}}</b></button>
                     </div>
                     <div class="box2 media-content">
                       <div class="content pisuhan">
                         {{key.message}}
                         <br>
-                        <div style="color:gray; font-size:7pt !important" class="has-text-right">{{key.timestamp}}</div>
+                        <div style="color:gray; font-size:7pt !important" class="has-text-right">{{getWellDate(key.timestamp)}}</div>
                       </div>
                     </div>
                   </article>
@@ -49,6 +49,7 @@
 <script>
 import * as firebase from "firebase";
 import 'firebase/firestore';
+const moment = require('moment');
 const db = firebase.firestore();
 export default {
   name: 'Home',
@@ -72,10 +73,12 @@ export default {
         });
         vueContext.Messages = messageData;
         vueContext.loading = false;
+        vueContext.$Progress.finish();
       })
       .catch(function (error) {
         vueContext.loading = false;
         vueContext.$snackbar.open(error);
+        vueContext.$Progress.fail();
       });
     },
     getProfile(){
@@ -99,29 +102,48 @@ export default {
       const uId = vueContext.$route.params.uId;
       const messageRef = db.collection(uId);
       const timeStamp = firebase.firestore.FieldValue.serverTimestamp();
-      vueContext.loading = true;
-      messageRef.add({
-        message:vueContext.pisuhanmu,
-        timestamp:timeStamp
-      })
-      .then(function(docRef) {
-        vueContext.getAllMessageFromFirebase();
-      })
-      .catch(function(error) {
-        console.error("Error : ", error);
-        vueContext.loading = false;
-        vueContext.$snackbar.open({
-            duration: 5000,
-            message: 'Misuhmu gagal dikirim!',
-            type: 'is-danger',
-            position: 'is-bottom-left',
-            actionText: 'Baleni',
-            queue: false,
-            onAction: () => {
-              vueContext.addPisuhanToFirebase();
-            }
+      if (vueContext.pisuhanmu) {
+        vueContext.loading = true;
+        messageRef.add({
+          message:vueContext.pisuhanmu,
+          timestamp:timeStamp
         })
-      });
+        .then(function(docRef) {
+          vueContext.getAllMessageFromFirebase();
+          vueContext.pisuhanmu = null;
+        })
+        .catch(function(error) {
+          console.error("Error : ", error);
+          vueContext.loading = false;
+          vueContext.$snackbar.open({
+              duration: 5000,
+              message: 'Misuhmu gagal dikirim!',
+              type: 'is-danger',
+              position: 'is-bottom-left',
+              actionText: 'Baleni',
+              queue: false,
+              onAction: () => {
+                vueContext.addPisuhanToFirebase();
+              }
+          })
+        });
+      }else{
+        vueContext.$snackbar.open({
+            message: 'Jangan dikosongi!',
+            type: 'is-danger',
+            position: 'is-bottom-right',
+            queue: false,
+        })
+      }
+    },
+    /* random color class*/
+    randCLassColor(){
+      const colors = ['is-warning', 'is-info', 'is-success', 'is-danger', 'is-dark', 'is-light'];
+      return colors[Math.floor(Math.random()*colors.length)];
+    },
+    /* local days */
+    getWellDate(string){
+      return moment(string).fromNow();
     }
   },
   mounted(){

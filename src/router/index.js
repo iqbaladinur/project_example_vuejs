@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from "@/components/Home.vue";
-import Register from "@/components/Register.vue";
-import User from "@/components/User.vue";
+const Home = () => import("@/components/Home.vue");
+const Register = () => import("@/components/Register.vue");
+const User = () => import("@/components/User.vue");
+const Privacy = () => import("@/components/Privacy.vue");
+const NotFound = () => import("@/components/Notfound.vue");
 
 Vue.use(Router)
 
@@ -23,6 +25,16 @@ export default new Router({
       path: '/user/:uId',
       name: 'user',
       component: User
+    },
+    {
+      path: '/privacy-policy',
+      name: 'privacy',
+      component: Privacy
+    },
+    {
+      path:'/404',
+      name:'notfound',
+      component: NotFound
     }
   ]
 })
