@@ -149,7 +149,10 @@ export default {
   mounted(){
     this.getAllMessageFromFirebase();
     this.getProfile();
-  }
+  },
+  beforeCreate(){
+    this.$Progress.start();
+  },
 }
 </script>
 

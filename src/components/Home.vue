@@ -139,7 +139,9 @@
     mounted(){
       this.getAllMessageFromFirebase();
     },
-
+    beforeCreate(){
+      this.$Progress.start();
+    }
   }
   </script>
 

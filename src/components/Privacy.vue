@@ -18,9 +18,12 @@
 </template>
 <script>
 export default {
-  name:"privacy"
+  name:"privacy",
+  beforeCreate(){
+    this.$Progress.start();
+  },
+  mounted(){
+    this.$Progress.finish();
+  }
 }
 </script>
-<style>
-
-</style>

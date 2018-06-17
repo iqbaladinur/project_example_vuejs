@@ -13,3 +13,15 @@
     </div>
   </section>
 </template>
+<script>
+export default {
+  name:"notfound",
+  beforeCreate(){
+    this.$Progress.start();
+  },
+  mounted(){
+    this.$Progress.finish();
+  }
+}
+</script>
+

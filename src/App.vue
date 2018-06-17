@@ -3,9 +3,9 @@
      <vue-progress-bar></vue-progress-bar>
      <nav id="navbar" ref="navbar" class="navbar is-fixed-top has-shadow is-danger" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-          <a class="navbar-item" href="/">
+          <router-link class="navbar-item" tag="a" :to="'/'">
             <button class="button is-danger"><i class="fab fa-freebsd"></i></button> misuh.platform
-          </a>
+          </router-link>
           <button class="button navbar-burger is-danger is-no-outline" data-target="navMenu" @click="spanNavigation()" :class="navbarSpan?'is-active':''">
             <span></span>
             <span></span>
@@ -42,9 +42,6 @@ export default {
       return localStorage.getItem('profile');
     }
   },
-  beforeCreate(){
-    this.$Progress.start();
-  }
 }
 </script>
 
