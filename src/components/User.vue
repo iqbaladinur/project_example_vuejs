@@ -102,7 +102,7 @@ export default {
       const uId = vueContext.$route.params.uId;
       const messageRef = db.collection(uId);
       const timeStamp = firebase.firestore.FieldValue.serverTimestamp();
-      if (vueContext.pisuhanmu) {
+      if (vueContext.pisuhanmu.trim()) {
         vueContext.loading = true;
         messageRef.add({
           message:vueContext.pisuhanmu,

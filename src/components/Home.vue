@@ -90,7 +90,7 @@
         const vueContext = this;
         const messageRef = db.collection("pisuhan");
         const timeStamp = firebase.firestore.FieldValue.serverTimestamp();
-        if (vueContext.pisuhanmu) {
+        if (vueContext.pisuhanmu.trim()) {
           vueContext.loading = true;
           messageRef.add({
             message:vueContext.pisuhanmu,
