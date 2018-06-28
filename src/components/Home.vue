@@ -3,7 +3,7 @@
       <section class="section">
         <div class="container">
           <div class="has-text-centered">
-            <button class="button is-danger" style="margin-bottom:30px"><i class="fab fa-freebsd is-size-1"></i></button>
+            <button class="button is-blue-gradient" style="margin-bottom:30px"><i class="fab fa-freebsd is-size-1"></i></button>
             <h1 class="title">misuh</h1>
             <h3> Platform untuk misuh-misuh</h3>
             <br>
@@ -12,7 +12,7 @@
               <div class="column is-6">
                 <textarea class="textarea" placeholder=" Misuho neng kene!!" v-model="pisuhanmu"></textarea>
                 <br>
-                <button class="button is-dark is-small" @click="addPisuhanToFirebase"><i class="fab fa-telegram-plane"> kirim misuh</i></button>
+                <button class="button is-blue-gradient is-small" @click="addPisuhanToFirebase"><i class="fab fa-telegram-plane"> kirim misuh</i></button>
                 <!-- content here -->
                 <div style="margin-top:30px">
                   <div class="has-text-centered" :class="!loading?'is-hidden':''">
@@ -21,7 +21,7 @@
                   <div v-for="(key, index) in Messages" :key="index" class="messages">
                     <article class="media">
                       <div class="media-left">
-                          <button class="button is-roundedfull is-uppercase" :class="randCLassColor()">
+                          <button class="button is-roundedfull is-uppercase is-dark">
                             <b>
                               {{key.message.slice(0,1)}}
                             </b>
@@ -85,6 +85,22 @@
         });
       },
 
+      /* methods get Realtime data */
+      getRealtimeDataFromFirebase(){
+        const vueContext = this;
+        const messageRef = db.collection("pisuhan");
+        messageRef.orderBy('timestamp', 'desc').onSnapshot(function (querySnapshot) {
+          let messageData = [];
+          querySnapshot.forEach(function(doc) {
+            messageData.push(doc.data());
+          });
+          setTimeout(() => {
+            vueContext.loading = false;
+            vueContext.Messages = messageData;
+            vueContext.$Progress.finish();
+          }, 1000);
+        })
+      },
       /* methods untuk menambah data */
       addPisuhanToFirebase(){
         const vueContext = this;
@@ -97,7 +113,7 @@
             timestamp:timeStamp
           })
           .then(function(docRef) {
-            vueContext.getAllMessageFromFirebase();
+            //vueContext.getAllMessageFromFirebase();
             vueContext.pisuhanmu = null;
           })
           .catch(function(error) {
@@ -137,7 +153,7 @@
       }
     },
     mounted(){
-      this.getAllMessageFromFirebase();
+      this.getRealtimeDataFromFirebase();
     },
     beforeCreate(){
       this.$Progress.start();

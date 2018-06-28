@@ -24,7 +24,7 @@ const config = {
 firebase.initializeApp(config);
 
 Vue.use(VueProgressBar, {
-  color: 'rgb(143, 255, 199)',
+  color: '#25A8E4',
   failedColor: 'red',
   height: '2px'
 })

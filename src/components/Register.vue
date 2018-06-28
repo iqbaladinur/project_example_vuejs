@@ -17,17 +17,28 @@
             <div v-if="isRegistered">
               <input type="text" class="input is-small" v-model="url">
               <br><br>
-              <router-link class="button is-info" tag="a" :to="'/user/'+ profile.Eea">Lihat Halaman Saya >></router-link>
-              <button class="button is-info" v-clipboard="url" @click="toastCopy">
-                <i class="fas fa-copy"> Salin URL</i>
+              <router-link class="button is-blue-gradient is-rounded is-small" tag="a" :to="'/user/'+ profile.Eea">Lihat Halaman Saya >></router-link>
+              <button class="button is-blue-gradient is-rounded is-small" v-clipboard="url" @click="toastCopy">
+                <span class="icon">
+                  <i class="fas fa-copy"></i>
+                </span>
+                <span>
+                  Salin URL
+                </span>
               </button>
             </div>
             <br>
             <g-signin-button
               :params="googleSignInParams"
               @success="onSignInSuccess"
-              @error="onSignInError">
-              <i class="fab fa-google"> {{btnGoogle}}</i>
+              @error="onSignInError"
+              class="button is-blue-gradient is-small is-rounded">
+              <span class="icon">
+                <i class="fab fa-google"></i>
+              </span>
+              <span>
+                {{btnGoogle}}
+              </span>
             </g-signin-button>
           </div>
           <div class="column"></div>
@@ -100,7 +111,7 @@ export default {
       vueInstance.isRegistered = true;
       vueInstance.message = "Halaman ujaran kebencian yang completely anonymous untukmu telah dibuat!";
       vueInstance.url = "https://misuh.azurewebsites.net/user/"+ data.Eea;
-      vueInstance.btnGoogle = "Pake Akun Lain"
+      vueInstance.btnGoogle = "Pakai Akun Lain"
     }
     this.$Progress.finish();
   },

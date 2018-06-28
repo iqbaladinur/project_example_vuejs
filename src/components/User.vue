@@ -13,7 +13,7 @@
               </div>
               <textarea class="textarea" placeholder=" Misuho neng kene!!" v-model="pisuhanmu"></textarea>
               <br>
-              <button class="button is-dark is-small" @click="addPisuhanToFirebase">Caci maki saja diriku</button>
+              <button class="button is-blue-gradient is-small" @click="addPisuhanToFirebase">Caci maki saja diriku</button>
               <!-- content here -->
               <div style="margin-top:30px">
                 <div class="has-text-centered" :class="!loading?'is-hidden':''">
@@ -81,6 +81,22 @@ export default {
         vueContext.$Progress.fail();
       });
     },
+    getRealtimeDataFromFirebase(){
+      const vueContext = this;
+      const uId = vueContext.$route.params.uId;
+      const messageRef = db.collection(uId);
+      messageRef.orderBy('timestamp', 'desc').onSnapshot(function (querySnapshot) {
+        let messageData = [];
+        querySnapshot.forEach(function(doc) {
+          messageData.push(doc.data());
+        });
+        setTimeout(() => {
+          vueContext.loading = false;
+          vueContext.Messages = messageData;
+          vueContext.$Progress.finish();
+        }, 1000);
+      })
+    },
     getProfile(){
       const vueContext = this;
       const uId = vueContext.$route.params.uId;
@@ -109,7 +125,7 @@ export default {
           timestamp:timeStamp
         })
         .then(function(docRef) {
-          vueContext.getAllMessageFromFirebase();
+          //vueContext.getAllMessageFromFirebase();
           vueContext.pisuhanmu = null;
         })
         .catch(function(error) {
@@ -147,7 +163,7 @@ export default {
     }
   },
   mounted(){
-    this.getAllMessageFromFirebase();
+    this.getRealtimeDataFromFirebase();
     this.getProfile();
   },
   beforeCreate(){
