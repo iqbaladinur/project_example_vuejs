@@ -16,7 +16,7 @@
           <button class="button navbar-burger is-light is-no-outline"
                   data-target="navMenu"
                   @click="spanNavigation()"
-                  @blur="spanNavigation()"
+                  @blur="navbarSpan = false"
                   :class="navbarSpan?'is-active':''">
             <span></span>
             <span></span>
