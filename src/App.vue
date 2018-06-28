@@ -13,13 +13,17 @@
               Platform Misuh
             </span>
           </router-link>
-          <button class="button navbar-burger is-light is-no-outline" data-target="navMenu" @click="spanNavigation()" :class="navbarSpan?'is-active':''">
+          <button class="button navbar-burger is-light is-no-outline"
+                  data-target="navMenu"
+                  @click="spanNavigation()"
+                  @blur="spanNavigation()"
+                  :class="navbarSpan?'is-active':''">
             <span></span>
             <span></span>
             <span></span>
           </button>
         </div>
-        <div class="navbar-menu is-light" :class="navbarSpan?'is-active':''" id="navMenu">
+        <div class="navbar-menu is-light" :class="navbarSpan?'is-active':''" id="navMenu" @mousedown.prevent>
           <div class="navbar-end" @click="spanNavigation()">
             <div class="navbar-item">
               <div class="field is-grouped">
@@ -125,10 +129,10 @@ export default {
     background: -o-linear-gradient(45deg, #0079C8, #2AAFE8);
     background: -moz-linear-gradient(45deg, #0079C8, #2AAFE8);
     background: linear-gradient(45deg, #0079C8, #2AAFE8);
-    color: #ffffff;
-    border:none;
-    -webkit-box-shadow: 0px 2px 6px 2px rgba(47, 150, 218, 0.09);
-    -moz-box-shadow: 0px 2px 6px 2px rgba(47, 150, 218, 0.09);
-    box-shadow: 0px 2px 6px 2px rgba(47, 150, 218, 0.09);
+    color: #ffffff !important;;
+    border:none !important;;
+    -webkit-box-shadow: 0px 2px 6px 2px rgba(47, 150, 218, 0.09) !important;;
+    -moz-box-shadow: 0px 2px 6px 2px rgba(47, 150, 218, 0.09) !important;;
+    box-shadow: 0px 2px 6px 2px rgba(47, 150, 218, 0.09) !important;;
 }
 </style>
