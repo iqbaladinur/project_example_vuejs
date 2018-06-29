@@ -101,7 +101,8 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Roboto:300');
 #app {
   font-family: 'Roboto', sans-serif;
-  margin-top: 60px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 .is-footer-content{
   font-size: 10pt;

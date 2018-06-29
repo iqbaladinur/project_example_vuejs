@@ -90,11 +90,11 @@ export default {
         localStorage.setItem('profile', JSON.stringify(rawProfile));
       })
       .catch(function(error) {
-         vueInstance.$snackbar.open(error);
+        vueInstance.$snackbar.open(error.message);
       });
     },
     onSignInError (error) {
-      this.$snackbar.open(error);
+      this.$snackbar.open(error.error.replace(/_/g, " "));
     },
     toastCopy(){
       this.$toast.open({
