@@ -8,7 +8,7 @@
             <div class="box">
               <i class="fas fa-user-circle fa-5x" v-if="!isRegistered"></i>
               <div v-if="isRegistered">
-                <img :src="profile.Paa" :alt="profile.U3" class="is-have-border">
+                <img :src="profile.Paa" alt="L" class="is-have-border">
                 <h1>{{profile.ig}}</h1>
               </div>
               <hr>
@@ -17,7 +17,14 @@
             <div v-if="isRegistered">
               <input type="text" class="input is-small" v-model="url">
               <br><br>
-              <router-link class="button is-blue-gradient is-rounded is-small" tag="a" :to="'/user/'+ profile.Eea">Lihat Halaman Saya >></router-link>
+              <router-link class="button is-blue-gradient is-rounded is-small" tag="a" :to="'/user/'+ profile.Eea">
+                <span class="icon">
+                  <i class="fas fa-user"></i>
+                </span>
+                <span>
+                  Lihat Halaman Saya >>
+                </span>
+              </router-link>
               <button class="button is-blue-gradient is-rounded is-small" v-clipboard="url" @click="toastCopy">
                 <span class="icon">
                   <i class="fas fa-copy"></i>
@@ -132,7 +139,10 @@ export default {
     cursor:pointer;
   }
   .is-have-border{
-     border-radius: 50%;
-     box-shadow: 2px 1px 0 #0000005b;
+    background: #5858585b;
+    border-radius: 50%;
+    box-shadow: 2px 1px 0 #5858585b;
+    width: 96px;
+    height: 96px;
   }
 </style>

@@ -154,9 +154,6 @@
     },
     mounted(){
       this.getRealtimeDataFromFirebase();
-    },
-    beforeCreate(){
-      this.$Progress.start();
     }
   }
   </script>

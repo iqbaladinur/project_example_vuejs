@@ -38,16 +38,6 @@
                   </router-link>
                 </p>
                 <p class="control">
-                  <a href="https://github.com/iqbaladinur/project_example_vuejs.git" target="_blank" class="button is-blue-gradient is-rounded">
-                    <span class="icon">
-                      <i class="fab fa-github"></i>
-                    </span>
-                    <span>
-                      source
-                    </span>
-                  </a>
-                </p>
-                <p class="control">
                   <router-link class="button is-blue-gradient is-rounded" tag="a" :to="'/daftar'">
                     <span class="icon">
                       <i class="fas fa-user-secret"></i>
@@ -64,7 +54,9 @@
     </nav>
     <!-- navbar end -->
     <!-- start of dynamic router view -->
-    <transition name="fade">
+    <transition name="fade"
+                mode="out-in"
+                :duration="{enter:300 , leave:400}">
       <keep-alive>
         <router-view/>
       </keep-alive>
@@ -72,7 +64,18 @@
     <!-- end of dynamic router view -->
     <!-- footer start -->
     <div class="navbar is-fixed-bottom is-light has-shadow">
-      <div class="is-footer-content">&copy;<a href="http://iqbaladinur.me">ostryan studio</a></div>
+      <div class="is-footer-content">
+        <p class="control">
+          <a href="https://github.com/iqbaladinur/project_example_vuejs.git" target="_blank" class="button is-small is-blue-gradient is-rounded">
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span>
+            <span>
+              &copy;ostryan studio
+            </span>
+          </a>
+        </p>
+      </div>
     </div>
     <!-- footer end -->
   </div>
@@ -94,6 +97,26 @@ export default {
       return localStorage.getItem('profile');
     }
   },
+  created(){
+      this.$Progress.start();
+      this.$router.beforeEach((to, from, next) => {
+        //  does the page we want to go to have a meta.progress object
+        if (to.meta.progress !== undefined) {
+          let meta = to.meta.progress
+          // parse meta tags
+          this.$Progress.parseMeta(meta)
+        }
+        //  start the progress bar
+        this.$Progress.start()
+        //  continue to next page
+        next()
+      })
+      //  hook the progress bar to finish after we've finished moving router-view
+      this.$router.afterEach((to, from) => {
+        //  finish the progress bar
+        this.$Progress.finish()
+      })
+  }
 }
 </script>
 
@@ -111,18 +134,6 @@ export default {
   width: 100%;
   height: 50px;
   justify-content: center;
-}
-.fade-enter-active{
-  transition: opacity 1s;
-}
-.fade-enter{
-  opacity: 0;
-}
-.fade-leave-active {
-  transition: opacity 0.1s;
-}
-.fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
 }
 .is-blue-gradient, .is-blue-gradient:hover, .is-blue-gradient:active, .is-blue-gradient:focus {
     background: #0079C8;
