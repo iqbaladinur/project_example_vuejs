@@ -121,10 +121,7 @@ export default {
       vueInstance.btnGoogle = "Pakai Akun Lain"
     }
     this.$Progress.finish();
-  },
-  beforeCreate(){
-    this.$Progress.start();
-  },
+  }
 }
 </script>
 <style scoped>
