@@ -141,6 +141,7 @@ html{
   width: 40px !important;
   height: 40px !important;
   border-radius:50% !important;
+  color: white;
 }
 .is-twitter{
   background:#243447 !important; 
