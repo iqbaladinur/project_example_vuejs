@@ -7,10 +7,10 @@ import buefy from "buefy";
 import 'buefy/lib/buefy.css';
 import GSignInButton from 'vue-google-signin-button';
 import VueClipboards from 'vue-clipboards';
-import VueProgressBar from 'vue-progressbar'
+import VueProgressBar from 'vue-progressbar';
 import * as firebase from "firebase";
+import store from "./logic/store";
 
-/* use your own config get it on firebase console when you created project */
 const config = {
   apiKey: "AIzaSyDKRk9fIbTJ2eDT6wag22n4KzbNyrxJcLU",
   authDomain: "misuh-ec6e6.firebaseapp.com",
@@ -19,7 +19,6 @@ const config = {
   storageBucket: "misuh-ec6e6.appspot.com",
   messagingSenderId: "162401697545"
 };
-
 /* initialize firestore */
 firebase.initializeApp(config);
 
@@ -27,7 +26,8 @@ Vue.use(VueProgressBar, {
   color: '#25A9E4',
   failedColor: 'red',
   thickness: '2.4px'
-})
+});
+
 Vue.config.productionTip = false;
 Vue.use(buefy, {
   defaultIconPack:'fas'
@@ -39,6 +39,7 @@ Vue.use(VueClipboards);
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 });

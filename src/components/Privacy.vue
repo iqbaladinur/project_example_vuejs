@@ -2,8 +2,8 @@
   <div>
     <section class="section">
       <div class="container">
-        <div class="content box">
-          <h1 class="is-capitalized">kebijakan privasi</h1>
+        <div class="content box is-radiusless is-twitter has-text-white">
+          <h1 class="is-capitalized has-text-white is-size-5">kebijakan privasi</h1>
           <ul class="bullet">
             <li>Dengan mendaftar sebagai user <b>misuh.platform</b> berarti anda menyetujui segala hal terkait aktivitas anda pada site ini.</li>
             <li>Pesan yang anda sampaikan tidak bisa dipertanggung jawabkan oleh siapapun.</li>

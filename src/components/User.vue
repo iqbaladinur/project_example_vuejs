@@ -4,23 +4,57 @@
       <div class="container">
         <div class="has-text-centered">
           <div class="columns">
-            <div class="column is-3"></div>
-            <div class="column is-6">
-              <div v-if="profile">
-                <img :src="profile.pictures" :alt="profile.U3" class="is-have-border">
-                <h1>{{profile.name}}</h1>
-                <br>
+            <div class="column is-3">
+              <div v-if="profile" class="box is-radiusless is-twitter has-text-centered">
+                <img :src="profile.pictures" class="is-have-border">
+                <h3 class="has-text-white">
+                  {{profile.name}}
+                </h3>
+                <p class="is-size-7 has-text-white has-gap">
+                  Give me your hated opinions.
+                </p>
+                <input type="text" class="input is-small is-twitter-dark is-no-outline has-gap" :value="baseUrl()+'/user/'+getUid()">
+                <p>
+                  <router-link class="button is-blue-gradient is-rounded is-small" tag="a" :to="'/daftar'">
+                    <span class="icon">
+                      <i class="fas fa-user"></i>
+                    </span>
+                    <span>
+                      switch to your account
+                    </span>
+                  </router-link>
+                </p>
               </div>
-              <textarea class="textarea" placeholder=" Misuho neng kene!!" v-model="pisuhanmu"></textarea>
-              <br>
-              <button class="button is-blue-gradient is-small" @click="addPisuhanToFirebase">Caci maki saja diriku</button>
+            </div>
+            <div class="column is-6">
+              <div class="box is-twitter is-radiusless has-text-right">
+                <div class="columns">
+                  <div class="column is-2 has-text-left is-hidden-mobile">
+                    <button class="is-roundedfull has-background-info">
+                      <img src="/static/favicon.png" alt="icon">
+                    </button>
+                  </div>
+                  <div class="column is-10">
+                    <div class="control" :class="loading?'is-loading':''">
+                      <textarea
+                        id="mainboard"
+                        ref="mainboard" 
+                        class="area-text is-twitter-dark"
+                        :class="focusForm == true || pisuhanmu.length != 0?'is-focus-and-contains':''" 
+                        placeholder="Misuho neng kene!!" 
+                        v-model="pisuhanmu"
+                        @focus="focusForm = true"
+                        @blur="focusForm = false"
+                        ></textarea>
+                    </div>
+                  </div>
+                </div>
+                <button class="button is-outlined is-rounded is-small is-light" @click="addPisuhanToFirebase"><i class="fas fa-pencil-alt"> Pisuh</i></button>
+              </div>
               <!-- content here -->
               <div style="margin-top:30px">
-                <div class="has-text-centered" :class="!loading?'is-hidden':''">
-                  <i class="fas fa-spinner fa-spin"></i>
-                </div>
-                <div v-for="(key, index) in Messages" :key="index" class="messages">
-                  <article class="media">
+                <div v-for="(key, index) in Messages" :key="index" class="messages animated fadeInUp">
+                  <article class="media box is-radiusless is-marginless is-twitter">
                     <div class="media-left">
                         <button class="button is-roundedfull is-uppercase" :class="randCLassColor()"> <b>{{key.message.slice(0,1)}}</b></button>
                     </div>
@@ -38,15 +72,25 @@
                 </div>
               </div>
             </div>
-            <div class="column is-3"></div>
+            <div class="column is-3">
+              <div class="box is-twitter is-radiusless">
+                <p class="has-text-justify has-text-white has-gap is-size-6">
+                  This page is public
+                </p>
+                <a href="https://ostryan.com" target="_blank">
+                  <img src="/static/ads.png" alt="ostryan.com">
+                </a>
+                <p class="is-size-7 has-text-left has-text-grey-light">ads by ostryan</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
   </div>
 </template>
-
 <script>
+
 import * as firebase from "firebase";
 import 'firebase/firestore';
 const moment = require('moment');
@@ -56,9 +100,10 @@ export default {
   data () {
     return {
       Messages:[],
-      pisuhanmu:null,
+      pisuhanmu:"",
       loading:true,
-      profile:null
+      profile:null,
+      focusForm:false,
     }
   },
   methods:{
@@ -80,6 +125,9 @@ export default {
         vueContext.$snackbar.open(error);
         vueContext.$Progress.fail();
       });
+    },
+    baseUrl(){
+      return window.location.hostname;
     },
     getRealtimeDataFromFirebase(){
       const vueContext = this;
@@ -125,8 +173,7 @@ export default {
           timestamp:timeStamp
         })
         .then(function(docRef) {
-          //vueContext.getAllMessageFromFirebase();
-          vueContext.pisuhanmu = null;
+          vueContext.pisuhanmu = "";
         })
         .catch(function(error) {
           console.error("Error : ", error);
@@ -157,6 +204,9 @@ export default {
       const colors = ['is-warning', 'is-info', 'is-success', 'is-danger', 'is-dark', 'is-light'];
       return colors[Math.floor(Math.random()*colors.length)];
     },
+    getUid(){
+      return this.$route.params.uId;
+    },
     /* local days */
     getWellDate(string){
       return moment(string).fromNow();
@@ -185,24 +235,10 @@ export default {
     width: 100%;
     justify-content: center;
   }
-  .pisuhan{
-    font-size:11pt;
-    font-style: italic;
-  }
   .is-roundedfull{
     width: 40px;
     height: 40px;
     border-radius:50%;
-  }
-  .box2{
-    border: 1px solid rgb(247, 245, 245);
-    background:rgb(252, 252, 252);
-    padding: 20px 20px 5px 20px;
-    border-radius:0px 10px 10px 15px;
-  }
-  .messages{
-    margin-top: 20px;
-    margin-bottom: 20px;
   }
   .is-have-border{
      border-radius: 50%;

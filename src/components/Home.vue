@@ -2,26 +2,78 @@
     <div style="padding-bottom:60px">
       <section class="section">
         <div class="container">
-          <div class="has-text-centered">
-            <button class="button is-blue-gradient" style="margin-bottom:30px"><i class="fab fa-freebsd is-size-1"></i></button>
-            <h1 class="title">misuh</h1>
-            <h3> Platform untuk misuh-misuh</h3>
-            <br>
+          <div class="has-text-right">
             <div class="columns">
-              <div class="column is-3"></div>
+              <div class="column is-3 is-hidden-mobile">
+                <div v-if="isRegistered() != null" class="box is-radiusless is-twitter has-text-centered">
+                  <img :src="JSON.parse(this.isRegistered()).Paa" alt="L" class="is-have-border">
+                  <h3 class="has-text-white">
+                    {{JSON.parse(this.isRegistered()).ig}}
+                  </h3>
+                  <p class="is-size-7">
+                    ({{JSON.parse(this.isRegistered()).U3}})
+                  </p>
+                  <input type="text" class="input is-small is-twitter-dark is-no-outline has-gap" :value="baseUrl()+'/user/'+JSON.parse(this.isRegistered()).Eea">
+                  <p>
+                    <router-link class="button is-blue-gradient is-rounded is-small" tag="a" :to="'/daftar'">
+                      <span class="icon">
+                        <i class="fas fa-user"></i>
+                      </span>
+                      <span>
+                        switch account
+                      </span>
+                    </router-link>
+                    <button class="button is-rounded is-small is-primary" @click="logout()">
+                      <span class="icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                      </span>
+                      <span>
+                        logout
+                      </span>
+                    </button>
+                  </p>
+                </div>
+                <div v-else class="box has-text-centered is-radiusless is-twitter">
+                  <a href="https://ostryan.com" target="_blank">
+                    <img src="/static/ads2.png" alt="ostryan.com">
+                  </a>
+                  <p class="is-size-7 has-text-left has-text-grey-light">ads by ostryan</p>
+                </div>
+              </div>
               <div class="column is-6">
-                <textarea class="textarea" placeholder=" Misuho neng kene!!" v-model="pisuhanmu"></textarea>
-                <br>
-                <button class="button is-blue-gradient is-small" @click="addPisuhanToFirebase"><i class="fab fa-telegram-plane"> kirim misuh</i></button>
-                <!-- content here -->
-                <div style="margin-top:30px">
-                  <div class="has-text-centered" :class="!loading?'is-hidden':''">
-                    <i class="fas fa-spinner fa-spin"></i>
+                <div class="box is-twitter is-radiusless">
+                  <div class="columns">
+                    <div class="column is-2 has-text-left is-hidden-mobile">
+                      <button class="is-roundedfull has-background-info">
+                        <img src="/static/favicon.png" alt="icon">
+                      </button>
+                    </div>
+                    <div class="column is-10">
+                      <div class="control" :class="loading?'is-loading':''">
+                        <textarea
+                          id="mainboard"
+                          ref="mainboard" 
+                          class="area-text is-twitter-dark"
+                          :class="focusForm == true || pisuhanmu.length != 0?'is-focus-and-contains':''" 
+                          placeholder="Misuho neng kene!!" 
+                          v-model="pisuhanmu"
+                          @focus="focusForm = true"
+                          @blur="focusForm = false"
+                          ></textarea>
+                      </div>
+                    </div>
                   </div>
-                  <div v-for="(key, index) in Messages" :key="index" class="messages">
-                    <article class="media">
+                  <button class="button is-outlined is-rounded is-small is-light" @click="addPisuhanToFirebase"><i class="fas fa-pencil-alt"> Pisuh</i></button>
+                </div>
+                <!-- content here -->
+                <div>
+                 <!--  <div style="margin-bottom:20px" class="has-text-centered" :class="!loading?'is-hidden':''">
+                    <i class="fas fa-spinner fa-spin"></i>
+                  </div> -->
+                  <div v-for="(key, index) in Messages" :key="index" class="messages animated fadeInUp">
+                    <article class="media box is-radiusless is-marginless is-twitter">
                       <div class="media-left">
-                          <button class="button is-roundedfull is-uppercase is-dark">
+                          <button class="button is-roundedfull is-uppercase is-twitter-dark">
                             <b>
                               {{key.message.slice(0,1)}}
                             </b>
@@ -38,7 +90,21 @@
                   </div>
                 </div>
               </div>
-              <div class="column is-3"></div>
+              <div class="column is-3">
+                <div class="box is-twitter is-radiusless">
+                  <a href="https://ostryan.com" target="_blank">
+                    <img src="/static/ads.png" alt="ostryan.com">
+                  </a>
+                  <p class="is-size-7 has-text-left has-text-grey-light">ads by ostryan</p>
+                  <p class="has-gap">
+                    <router-link class="button is-rounded is-small is-primary" tag="a" :to="'/privacy-policy'">
+                      <span>
+                        privacy police
+                      </span>
+                    </router-link>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -60,8 +126,10 @@
     data () {
       return {
         Messages:[],
-        pisuhanmu:null,
-        loading:true
+        pisuhanmu:"",
+        loading:true,
+        focusForm:false,
+        profile:JSON.parse(this.isRegistered())
       }
     },
     methods:{
@@ -84,7 +152,6 @@
           vueContext.$Progress.fail();
         });
       },
-
       /* methods get Realtime data */
       getRealtimeDataFromFirebase(){
         const vueContext = this;
@@ -113,8 +180,7 @@
             timestamp:timeStamp
           })
           .then(function(docRef) {
-            //vueContext.getAllMessageFromFirebase();
-            vueContext.pisuhanmu = null;
+            vueContext.pisuhanmu = "";
           })
           .catch(function(error) {
             console.error("Error : ", error);
@@ -140,54 +206,34 @@
           })
         }
       },
-
-      /* random color class*/
-      randCLassColor(){
-        const colors = ['is-warning', 'is-info', 'is-success', 'is-danger', 'is-dark', 'is-light'];
-        return colors[Math.floor(Math.random()*colors.length)];
-      },
-
       /* local days */
       getWellDate(string){
         return moment(string).fromNow();
+      },
+      isRegistered(){
+        return localStorage.getItem('profile');
+      },
+      baseUrl(){
+        return window.location.hostname;
+      },
+      logout(){
+        localStorage.removeItem('profile');
+        location.reload();
       }
     },
     mounted(){
       this.getRealtimeDataFromFirebase();
-    }
+    },
   }
   </script>
 
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
-    .is-no-outline{
-      border-radius: 0px;
-      border:0px;
-    }
     .is-footer-content{
       font-size: 10pt;
       display: flex;
       align-items:center;
       width: 100%;
       justify-content: center;
-    }
-    .pisuhan{
-      font-size:11pt;
-      font-style: italic;
-    }
-    .is-roundedfull{
-      width: 40px;
-      height: 40px;
-      border-radius:50%;
-    }
-    .box2{
-      border: 1px solid rgb(247, 245, 245);
-      background:rgb(252, 252, 252);
-      padding: 20px 20px 5px 20px;
-      border-radius:0px 10px 10px 15px;
-    }
-    .messages{
-      margin-top: 20px;
-      margin-bottom: 20px;
     }
   </style>

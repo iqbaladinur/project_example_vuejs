@@ -3,9 +3,9 @@
     <section class="section">
       <div class="container">
         <div class="columns">
-          <div class="column"></div>
+          <div class="column is-hidden-mobile"></div>
           <div class="column has-text-centered">
-            <div class="box">
+            <div class="box is-radiusless is-no-outline is-twitter has-text-white">
               <i class="fas fa-user-circle fa-5x" v-if="!isRegistered"></i>
               <div v-if="isRegistered">
                 <img :src="profile.Paa" alt="L" class="is-have-border">
@@ -15,22 +15,22 @@
               <h1>{{message}}</h1>
             </div>
             <div v-if="isRegistered">
-              <input type="text" class="input is-small" v-model="url">
+              <input type="text" class="input is-small is-twitter has-text-white is-no-outline is-dark" v-model="url">
               <br><br>
-              <router-link class="button is-blue-gradient is-rounded is-small" tag="a" :to="'/user/'+ profile.Eea">
+              <router-link class="button is-primary is-rounded is-small" tag="a" :to="'/user/'+ profile.Eea">
                 <span class="icon">
                   <i class="fas fa-user"></i>
                 </span>
                 <span>
-                  Lihat Halaman Saya >>
+                  My Page >>
                 </span>
               </router-link>
-              <button class="button is-blue-gradient is-rounded is-small" v-clipboard="url" @click="toastCopy">
+              <button class="button is-primary is-rounded is-small" v-clipboard="url" @click="toastCopy">
                 <span class="icon">
                   <i class="fas fa-copy"></i>
                 </span>
                 <span>
-                  Salin URL
+                  Copy URL
                 </span>
               </button>
             </div>
@@ -48,7 +48,7 @@
               </span>
             </g-signin-button>
           </div>
-          <div class="column"></div>
+          <div class="column is-hidden-mobile"></div>
         </div>
       </div>
     </section>
@@ -75,7 +75,7 @@ export default {
       isRegistered:false,
       message:"Daftar untuk menampung kebencian teman-teman mu!",
       url:null,
-      btnGoogle:"Daftar dengan Google"
+      btnGoogle:"Register With Google"
     }
   },
   methods: {
@@ -93,7 +93,7 @@ export default {
         vueInstance.profile = rawProfile;
         vueInstance.isRegistered = true;
         vueInstance.message = "Halaman ujaran kebencian yang completely anonymous untukmu telah dibuat!";
-        vueInstance.url = "https://misuh.azurewebsites.net/user/"+uId;
+        vueInstance.url = vueInstance.baseUrl()+"/user/"+uId;
         localStorage.setItem('profile', JSON.stringify(rawProfile));
       })
       .catch(function(error) {
@@ -109,6 +109,9 @@ export default {
         message: `copied`,
       });
     },
+    baseUrl(){
+      return window.location.hostname;
+    }
   },
   mounted(){
     const vueInstance = this;
@@ -117,8 +120,8 @@ export default {
       vueInstance.profile = data;
       vueInstance.isRegistered = true;
       vueInstance.message = "Halaman ujaran kebencian yang completely anonymous untukmu telah dibuat!";
-      vueInstance.url = "https://misuh.azurewebsites.net/user/"+ data.Eea;
-      vueInstance.btnGoogle = "Pakai Akun Lain"
+      vueInstance.url = vueInstance.baseUrl()+"/user/"+ data.Eea;
+      vueInstance.btnGoogle = "Switch Account"
     }
     this.$Progress.finish();
   }
@@ -134,12 +137,5 @@ export default {
     color: #fff;
     box-shadow: 0 3px 0 #0f69ff;
     cursor:pointer;
-  }
-  .is-have-border{
-    background: #5858585b;
-    border-radius: 50%;
-    box-shadow: 2px 1px 0 #5858585b;
-    width: 96px;
-    height: 96px;
   }
 </style>
