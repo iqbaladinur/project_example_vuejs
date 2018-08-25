@@ -93,7 +93,7 @@ export default {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans');
 html{
-  background: #141D26;
+  background: #141D26 !important;
 }
 .area-text{
   width: 100%;
@@ -138,15 +138,15 @@ html{
   margin-top: 30px;
 }
 .is-roundedfull{
-  width: 40px;
-  height: 40px;
-  border-radius:50%;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius:50% !important;
 }
 .is-twitter{
-  background:#243447; 
+  background:#243447 !important; 
 }
 .is-twitter-dark{
-  background:#141D26; 
+  background:#141D26 !important; 
   color: white;
 }
 .is-footer-content{
