@@ -118,6 +118,7 @@ html{
   background:#243447;
   color:white;
   padding: 20px 20px 5px 20px;
+  overflow: auto !important;
   /* border-radius:0px 10px 10px 15px */;
 }
 .messages{
@@ -141,7 +142,8 @@ html{
   width: 40px !important;
   height: 40px !important;
   border-radius:50% !important;
-  color: white;
+  color: white !important;
+  border: none !important;
 }
 .is-twitter{
   background:#243447 !important; 
