@@ -11,7 +11,7 @@
                 <img src="/static/favicon.png" alt="icon">
               </button>
             </router-link>
-            <button class="button navbar-burger is-twitter is-outliness has-text-white"
+            <button class="button navbar-burger is-twitter is-outliness has-text-white is-radiusless"
                     data-target="navMenu"
                     @click="spanNavigation()"
                     @blur="navbarSpan = false"
@@ -122,7 +122,9 @@ html{
   /* border-radius:0px 10px 10px 15px */;
 }
 .messages{
-  border:1px solid black;
+  border:1px solid rgb(32, 32, 32);
+  margin-top: 2.5px; 
+  margin-bottom: 2.5px; 
 }
 .has-gap{
   margin-top:10px;margin-bottom:10px
