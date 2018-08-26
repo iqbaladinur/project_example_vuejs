@@ -75,7 +75,7 @@ export default {
       isRegistered:false,
       message:"Daftar untuk menampung kebencian teman-teman mu!",
       url:null,
-      btnGoogle:"Register With Google"
+      btnGoogle:"Login With Google"
     }
   },
   methods: {

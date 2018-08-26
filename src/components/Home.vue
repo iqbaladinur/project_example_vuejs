@@ -1,47 +1,62 @@
   <template>
-    <div style="padding-bottom:60px">
-      <section class="section">
-        <div class="container">
+    <div id="home">
+      <section class="section is-paddingless-left is-paddingless-right">
+        <div class="container is-fluid">
           <div class="has-text-right">
             <div class="columns">
               <div class="column is-3 is-hidden-mobile">
-                <div v-if="isRegistered() != null" class="box is-radiusless is-twitter has-text-centered">
-                  <img :src="JSON.parse(this.isRegistered()).Paa" alt="L" class="is-have-border">
-                  <h3 class="has-text-white">
-                    {{JSON.parse(this.isRegistered()).ig}}
-                  </h3>
-                  <p class="is-size-7">
-                    ({{JSON.parse(this.isRegistered()).U3}})
-                  </p>
-                  <input type="text" class="input is-small is-twitter-dark is-no-outline has-gap" :value="baseUrl()+'/user/'+JSON.parse(this.isRegistered()).Eea">
-                  <p>
-                    <router-link class="button is-blue-gradient is-rounded is-small" tag="a" :to="'/daftar'">
-                      <span class="icon">
-                        <i class="fas fa-user"></i>
-                      </span>
-                      <span>
-                        switch account
-                      </span>
-                    </router-link>
-                    <button class="button is-rounded is-small is-primary" @click="logout()">
-                      <span class="icon">
-                        <i class="fas fa-sign-out-alt"></i>
-                      </span>
-                      <span>
-                        logout
-                      </span>
-                    </button>
-                  </p>
+                <div v-if="isRegistered() != null">
+                  <div class="box is-twitter has-text-centered is-radiusless">
+                    <img :src="JSON.parse(this.isRegistered()).Paa" alt="L" class="is-have-border">
+                    <h3 class="has-text-white">
+                      {{JSON.parse(this.isRegistered()).ig}}
+                    </h3>
+                    <p class="is-size-7">
+                      ({{JSON.parse(this.isRegistered()).U3}})
+                    </p>
+                    <input type="text" class="input is-small is-twitter-dark is-no-outline has-gap" :value="baseUrl()+'/user/'+JSON.parse(this.isRegistered()).Eea">
+                    <p>
+                      <router-link class="button is-blue-gradient is-rounded is-small" tag="a" :to="'/daftar'">
+                        <span class="icon">
+                          <i class="fas fa-user"></i>
+                        </span>
+                        <span>
+                          switch account
+                        </span>
+                      </router-link>
+                      <button class="button is-rounded is-small is-primary" @click="logout()">
+                        <span class="icon">
+                          <i class="fas fa-sign-out-alt"></i>
+                        </span>
+                        <span>
+                          logout
+                        </span>
+                      </button>
+                    </p>
+                  </div>
                 </div>
-                <div v-else class="box has-text-centered is-radiusless is-twitter">
+                <div v-else class="box has-text-centered is-twitter is-radiusless">
                   <a href="https://ostryan.com" target="_blank">
                     <img src="/static/ads2.png" alt="ostryan.com">
                   </a>
                   <p class="is-size-7 has-text-left has-text-grey-light">ads by ostryan</p>
                 </div>
+                <div class="box is-twitter has-text-left has-text-grey-lighter is-size-7 is-radiusless has-gap">
+                    <p>Bad Words Example</p>
+                    --------------------------------
+                    <ul class="has-border">
+                      <li>Kampret</li>
+                      <li>Kampang</li>
+                      <li>Bangsat si anjing</li>
+                      <li>Jancuk</li>
+                      <li>Fuck off</li>
+                      <li>Nyerah aja..</li>
+                      <li>Asu ya</li>
+                    </ul>
+                  </div>
               </div>
               <div class="column is-6">
-                <div class="box is-twitter is-radiusless">
+                <div class="box is-twitter-light">
                   <div class="columns">
                     <div class="column is-2 has-text-left is-hidden-mobile">
                       <button class="is-roundedfull has-background-info">
@@ -63,7 +78,11 @@
                       </div>
                     </div>
                   </div>
-                  <button class="button is-outlined is-rounded is-small is-light" @click="addPisuhanToFirebase"><i class="fas fa-pencil-alt"> Pisuh</i></button>
+                  <button :class="focusForm == true || pisuhanmu.length != 0?'':'is-hidden'" 
+                          class="button is-outlined is-rounded is-small is-light" 
+                          @click="addPisuhanToFirebase">
+                    <i class="fas fa-pencil-alt"> Pisuh</i>
+                  </button>
                 </div>
                 <!-- content here -->
                 <div>
@@ -235,5 +254,11 @@
       align-items:center;
       width: 100%;
       justify-content: center;
+    }
+    .is-paddingless-left{
+      padding-left: 0px; 
+    }
+    .is-paddingless-right{
+      padding-right: 0px; 
     }
   </style>

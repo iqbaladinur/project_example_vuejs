@@ -7,9 +7,12 @@
         <div class="container">
             <div class="navbar-brand">
             <router-link class="navbar-item" tag="a" :to="'/'">
-              <button class="is-roundedfull has-background-primary">
-                <img src="/static/favicon.png" alt="icon">
+              <button class="button is-blue-gradient is-rounded is-small">
+                <span class="icon"><img src="/static/favicon.png" alt="icon"></span>
+                <span>Misuh.Platform</span>
               </button>
+              <span>
+              </span>
             </router-link>
             <button class="button navbar-burger is-twitter is-outliness has-text-white is-radiusless"
                     data-target="navMenu"
@@ -115,16 +118,13 @@ html{
   height: 120px;
 }
 .box2{
-  background:#243447;
   color:white;
   padding: 20px 20px 5px 20px;
   overflow: auto !important;
   /* border-radius:0px 10px 10px 15px */;
 }
 .messages{
-  border:1px solid rgb(32, 32, 32);
-  margin-top: 2.5px; 
-  margin-bottom: 2.5px; 
+  /* border:1px solid rgb(32, 32, 32);  */
 }
 .has-gap{
   margin-top:10px;margin-bottom:10px
@@ -149,6 +149,9 @@ html{
 }
 .is-twitter{
   background:#243447 !important; 
+}
+.is-twitter-light{
+  background:#293644 !important; 
 }
 .is-twitter-dark{
   background:#141D26 !important; 
@@ -176,5 +179,12 @@ html{
 }
 .is-outliness{
   border: none !important;
+}
+@media (max-width:641px)  { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */ 
+	.is-twitter-light{
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 0px;
+  }
 }
 </style>
