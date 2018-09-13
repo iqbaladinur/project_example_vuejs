@@ -94,18 +94,24 @@
                       <div class="media-left">
                           <button class="button is-roundedfull is-uppercase is-twitter-dark">
                             <b>
-                              {{key.message.slice(0,1)}}
+                              {{key.data.message.slice(0,1)}}
                             </b>
                           </button>
                       </div>
                       <div class="box2 media-content">
                         <div class="content pisuhan">
-                          {{key.message}}
+                          {{key.data.message}}
                           <br>
-                          <div style="color:gray; font-size:7pt !important" class="has-text-right">{{getWellDate(key.timestamp)}}</div>
+                          <div style="color:gray; font-size:7pt !important" class="has-text-right">{{getWellDate(key.data.timestamp)}}</div>
                         </div>
                       </div>
                     </article>
+                  </div>
+                  <br>
+                  <div class="is-fullwidth" :class="(Messages.length == 0)?'is-hidden':''">
+                    <button :class="loadmore?'is-loading':''" class="button is-fullwidth is-radiusless is-twitter is-no-outline has-text-white" @click="getMoreMessageFromFirebase()">
+                      {{loadMoreText}}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -147,38 +153,43 @@
         Messages:[],
         pisuhanmu:"",
         loading:true,
+        loadmore:false,
         focusForm:false,
-        profile:JSON.parse(this.isRegistered())
+        profile:JSON.parse(this.isRegistered()),
+        lastSnap:[],
+        limitData:25,
+        loadMoreText:"more"
       }
     },
     methods:{
       /* methods untuk mendapatkan seluruh pesan */
-      getAllMessageFromFirebase(){
+      getMoreMessageFromFirebase(){
         const vueContext = this;
+        vueContext.loadmore = true;
         const messageRef = db.collection("pisuhan");
-        messageRef.orderBy('timestamp', 'desc').get().then(function(querySnapshot) {
-          let messageData = [];
-          querySnapshot.forEach(function(doc) {
-            messageData.push(doc.data());
+        const lastData = vueContext.Messages[vueContext.Messages.length -1].snap;
+        messageRef.orderBy('timestamp', 'desc').startAfter(lastData).limit(vueContext.limitData).get().then(function (snapshot) {
+          let counter = 0;
+          snapshot.forEach(function(doc) {
+            vueContext.Messages.push({data:doc.data(), id:doc.id, snap:doc});
+            counter++;
           });
-          vueContext.Messages = messageData;
-          vueContext.loading = false;
-          vueContext.$Progress.finish();
+          vueContext.loadmore = false;
+          vueContext.loadMoreText = counter == 0?'no more dude':'more'; 
         })
         .catch(function (error) {
-          vueContext.loading = false;
-          vueContext.$snackbar.open(error);
-          vueContext.$Progress.fail();
+          vueContext.loadmore = false;
+          vueContext.$snackbar.open("error");
         });
       },
       /* methods get Realtime data */
       getRealtimeDataFromFirebase(){
         const vueContext = this;
         const messageRef = db.collection("pisuhan");
-        messageRef.orderBy('timestamp', 'desc').onSnapshot(function (querySnapshot) {
+        messageRef.orderBy('timestamp', 'desc').limit(vueContext.limitData).onSnapshot(function (querySnapshot) {
           let messageData = [];
           querySnapshot.forEach(function(doc) {
-            messageData.push(doc.data());
+            messageData.push({data:doc.data(), id:doc.id, snap:doc});
           });
           setTimeout(() => {
             vueContext.loading = false;
